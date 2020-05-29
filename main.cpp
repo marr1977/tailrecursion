@@ -2,20 +2,31 @@
 #include <iostream>
 #include <chrono>
 
+// Ambitious. But didn't help.
+#define unlikely(x)    __builtin_expect(!!(x), 0) 
+
+/**
+ * Fibonacci, classic non-tail recursive way
+ */
 long fib_non_tr(int n) {
-	if (n == 0) return 0;
-	if (n == 1) return 1;
+	if (unlikely(n < 2)) return n;
 	return fib_non_tr(n - 1) + fib_non_tr(n - 2);
 }
 
 
+/**
+ * Fibonacci, tail recursive helper with accumulators
+ */
 long fib_tr_go(int n, long a, long b)
 {
-	if (n == 0) return a;
-	if (n == 1) return b;
+	if (unlikely(n == 0)) return a;
+	if (unlikely(n == 1)) return b;
 	return fib_tr_go(n - 1, b, a + b);
 }
 
+/**
+ * Fibonacci, tail recursive
+ */
 long fib_tr(int n)
 {
 	return fib_tr_go(n, 0, 1);
@@ -24,9 +35,7 @@ long fib_tr(int n)
 int main(void)
 {
 
-	int n = 50;
-
-	for (int i = 0; i < n; ++i) 
+	for (int i = 0; i <= 50; ++i) 
 	{
 		auto start = std::chrono::high_resolution_clock::now();
 
@@ -45,8 +54,6 @@ int main(void)
           		  << std::chrono::duration_cast<std::chrono::milliseconds>(end - mid).count() << " ms)" << std::endl;
 	}
 	
-
-
 
 	return 0;
 }
