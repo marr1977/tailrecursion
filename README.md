@@ -47,5 +47,7 @@ fib_tr(49)     = 7778742049 (0 ms)
 
 The reason why the tail recursive version is so much faster is that GCC O2 and above uses something called *tail call optimization* whereby the call stack is reused for every recursive call, effectively turning the recursive function into a loop.
 
+Also, the tail recursive method consumes much less memory since the stack is reused.
+
 https://dev.to/rohit/demystifying-tail-call-optimization-5bf3
 
